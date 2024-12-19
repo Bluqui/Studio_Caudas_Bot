@@ -11,7 +11,7 @@ function doPush{
     Write-Host "Adicionando todos os arquivos" -ForegroundColor Cyan
     git add ./
     Write-Host "`nFazendo Commit" -ForegroundColor Blue
-    git commit -m "1.0.0"
+    git commit -m "1.0.1"
     Write-Host "`nDando o Push" -ForegroundColor DarkBlue
     git push origin HEAD:four
 }
@@ -40,7 +40,7 @@ if(!$y) {
         if ($confirmIni -eq 'Y') {
             inicializar
         } elseif ($confirmIni -eq 'N'){
-            Write-Host "Inicialização cacelada"
+            Write-Host "Inicializaï¿½ï¿½o cacelada"
         } else {}
     } while ($confirmIni -ne 'Y' -and $confirmIni -ne 'N')
 

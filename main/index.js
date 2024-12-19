@@ -51,7 +51,7 @@ const status = [
 	{ name: `Não esqueça de seguir-nos!`, type: ActivityType.Custom },
 	{ name: `JavaScript! :D`, type: ActivityType.Playing },
 	{ name: `Já conhece nosso Telegram?`, type: ActivityType.Custom },
-	{ name: `prol da ordem!`, type: ActivityType.Competing },
+	{ name: `prol do anúncio!`, type: ActivityType.Competing },
 	{ name: `Estamos produzindo pra você!`, type: ActivityType.Custom }
 ]
 
@@ -87,8 +87,12 @@ function launchBot() {
 		setTimeout(launchBot, 30000)
 	});
 }
-launchBot()
-console.log("Telegram Bot is Online!")
+
+try {
+	launchBot()	
+} catch (error) {
+	console.log(" Telegram Bot is Online!")	
+} 
 
 // Enable graceful stop
 process.once('SIGINT', () => bot.stop('SIGINT'))
