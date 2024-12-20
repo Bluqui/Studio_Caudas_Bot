@@ -2,6 +2,7 @@ const { Twitch } = require("@voidpkg/social-alert");
 const { EmbedBuilder } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
+const logEvent = require('../utils/logger');
 
 const ultimaLive = null
 
@@ -12,15 +13,18 @@ module.exports = (client, bot) => {
             const channel = await guild.channels.fetch('1041581919688720467').catch(console.error); //1041581919688720467
 
             const twitch = new Twitch({
-                channels: ['studiocaudas'],
+                //channel: 'studiocaudas'
+                channels: ['ralisco'],
                 liveChannels: [],
-                interval: 10000,
+                interval: 90000,
                 client: {
-                    id: 'm11fec7a5ouv47h1myuhy63vlgq9ko', // Get from: https://dev.twitch.tv
-                    secret: '79pe0vr6dh9oz346czk523b5r8tt1f', // Get from: https://dev.twitch.tv
-                    token: 'yrkraunagrmnlwh5yvgg3jhfwtzrl2' // After entering the ID and SECRET, run it and check your console, a token will be automatically generated for you. So you can leave this blank.
+                    id: process.env.TWITCH_CLIENT_ID, // Get from: https://dev.twitch.tv
+                    secret: process.env.TWITCH_CLIENT_SECRET, // Get from: https://dev.twitch.tv
+                    token: process.env.TWITCH_TOKEN, // After entering the ID and SECRET, run it and check your console, a token will be automatically generated for you. So you can leave this blank.
                 }
             });
+
+            logEvent("Twitch API connection is ok!", "success")
 
             const filePath = path.join(__dirname, 'live.json');
             const rawData = fs.readFileSync(filePath, 'utf8');
@@ -52,11 +56,11 @@ module.exports = (client, bot) => {
                         },
                     });
     
-                    console.log("live on");
+                    logEvent(`Nova live na Twitch detectada: \n "${stream.title}" \n Enviado notificação no Discord e Telegram`, "info")
     
                     //bot.telegram.sendMessage(5474255947, "Uma nova live foi iniciada no canal da Twitch! Gostaria de divulgar ela?");
     
-                    const canalDoLunar = -1001156955497
+                    /*const canalDoLunar = -1001156955497
                     const furryArteRPG = -1001384735750
                     const studioCaudas = -1001334148893
                     const comentarioChamada = {
@@ -66,12 +70,11 @@ module.exports = (client, bot) => {
     
                     channel.send({ content: "@everyone", embeds: [embed] })
                     .then(async message => {
-                    console.log(`\nNova live na Twitch detectada. Enviado notificação no Discord e Telegram`);
     
                     await bot.telegram.sendPhoto(canalDoLunar, stream.thumbnail_url.replace('{width}', '640').replace('{height}', '360'), comentarioChamada)
                     await bot.telegram.sendPhoto(furryArteRPG, stream.thumbnail_url.replace('{width}', '640').replace('{height}', '360'), comentarioChamada)
                     await bot.telegram.sendPhoto(studioCaudas, stream.thumbnail_url.replace('{width}', '640').replace('{height}', '360'), comentarioChamada)
-                    }).catch(console.error);
+                    }).catch(console.error);*/
 
                 }
 

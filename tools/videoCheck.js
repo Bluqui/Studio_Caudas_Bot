@@ -3,7 +3,7 @@ const Parser = require('rss-parser');
 const parser = new Parser();
 const fs = require('fs');
 const path = require('path');
-
+const logEvent = require('../utils/logger');
 
 module.exports = (client, bot) => {
 	client.videoCheck = async () => {
@@ -52,7 +52,9 @@ module.exports = (client, bot) => {
 			const studioCaudas = -1001334148893
 			const comentarioChamada = `Saiu vídeo novo lá na Studio Caudas! Bora lá conferir ^^\n${link}`
 
-			await channel.send({ content: "@everyone", embeds: [embed] })
+			logEvent(`Novo vídeo detectado: \n "${data.items[0].title}" \n Enviado notificação no Discord e Telegram`, "info")
+
+			/*await channel.send({ content: "@everyone", embeds: [embed] })
             .then(async message => {
                 console.log(`\nNovo vídeo detectado. Enviado notificação no Discord e Telegram`);
 
@@ -60,7 +62,7 @@ module.exports = (client, bot) => {
 				await bot.telegram.sendMessage(furryArteRPG, comentarioChamada);
 				await bot.telegram.sendMessage(studioCaudas, comentarioChamada);
             })
-            .catch(console.error);
+            .catch(console.error);*/
 		}
 	};
 };

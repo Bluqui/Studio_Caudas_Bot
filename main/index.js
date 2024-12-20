@@ -3,9 +3,13 @@ const path = require('node:path');
 const { Client, Collection, GatewayIntentBits, ActivityType } = require('discord.js');
 const { Telegraf } = require('telegraf')
 const { message } = require('telegraf/filters')
+const logEvent = require('../utils/logger');
 require("dotenv").config()
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+
+require('../tools/videoCheck')(client);
+require('../tools/twitchLiveCheck')(client);
 
 client.commands = new Collection();
 const foldersPath = path.join(__dirname, 'commands');
@@ -37,9 +41,6 @@ for (const file of eventFiles) {
 		client.on(event.name, (...args) => event.execute(...args));
 	}
 }
-
-require('../tools/videoCheck')(client);
-require('../tools/twitchLiveCheck')(client);
 
 let statusCont = 0
 const status = [
@@ -83,15 +84,18 @@ bot.command('getid', (ctx) => ctx.reply(`ID: ${ctx.message.chat.id}`))
 function launchBot() {
 	bot.launch().then(() => {
 	}).catch((err) => {
-		console.error('Failed to launch the bot:', err)
+		logEvent("Failed to launch the bot:", "error")
+		console.error(err)
 		setTimeout(launchBot, 30000)
 	});
 }
 
 try {
 	launchBot()	
-} catch (error) {
-	console.log(" Telegram Bot is Online!")	
+	logEvent("Telegram Bot is Online!", "success")
+} catch (err) {	
+	logEvent("Failed to launch the bot:", "error")
+	console.error(err)
 } 
 
 // Enable graceful stop

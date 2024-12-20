@@ -11,7 +11,7 @@ function doPush{
     Write-Host "Adicionando todos os arquivos" -ForegroundColor Cyan
     git add ./
     Write-Host "`nFazendo Commit" -ForegroundColor Blue
-    git commit -m "1.0.1"
+    git commit -m "1.0.2"
     Write-Host "`nDando o Push" -ForegroundColor DarkBlue
     git push origin HEAD:four
 }
